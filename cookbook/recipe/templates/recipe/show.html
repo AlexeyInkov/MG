@@ -1,0 +1,27 @@
+{% extends 'recipe/base.html' %}
+
+{% block title %}
+Recipe List
+{% endblock %}
+
+{% block body %}
+<h1>Recipe List:</h1>
+
+<div>
+    {% if not recipes %}
+    <h3>No recipes yet</h3>
+    {% else %}
+    <ul>
+
+        {% for recipe in recipes %}
+        <li>
+            <ul>
+                {{recipe.id}} - {{ recipe.name }}
+            </ul>
+        </li>
+        {% endfor %}
+
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}

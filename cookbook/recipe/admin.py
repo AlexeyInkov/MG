@@ -9,7 +9,7 @@ class ItemInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = "id", "name", "count_recipe"
+    list_display = "id", "name", "count_cook"
 
 
 @admin.register(Recipe)
