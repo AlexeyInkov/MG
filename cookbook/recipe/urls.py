@@ -17,7 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from cookbook.recipe.views import add_product_to_recipe, cook_recipe, show_recipe
+from .views import add_product_to_recipe, cook_recipe, show_recipe
+
+app_name = "recipe"
 
 urlpatterns = [
     path("add_product_to_recipe/", add_product_to_recipe, name="add_product_to_recipe"),
