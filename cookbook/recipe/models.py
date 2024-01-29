@@ -5,7 +5,10 @@ from django.db import models
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    count_recipe = models.IntegerField(default=0)
+    count_recipe = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class Recipe(models.Model):
