@@ -18,4 +18,3 @@ class RecipeAdmin(admin.ModelAdmin):
         ItemInline,
     ]
     list_display = "id", "name"
-
