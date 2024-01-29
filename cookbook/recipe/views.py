@@ -14,11 +14,12 @@ def add_product_to_recipe(request: HttpRequest):
         weight = int(request.GET.get("weight"))
     except TypeError:
         return HttpResponseNotFound("Параметры переданы некорректно")
-    if RecipeItem.objects.all().filter(id=recipe_id).filter(product_id=product_id):
-        return HttpResponse("Данный продукт добавлен в рецепт ранее", status=400)
-    recipe_item = RecipeItem(recipe_id=recipe_id, product_id=product_id, product_weight=weight)
+    recipe_item, create = RecipeItem.objects.get_or_create(recipe_id=recipe_id, product_id=product_id)
+    recipe_item.product_weight = weight
     recipe_item.save()
-    return HttpResponse("Продукт добавлен", status=200)
+    if create:
+        return HttpResponse("Продукт добавлен", status=200)
+    return HttpResponse("Продукт изменен", status=200)
 
 
 def cook_recipe(request: HttpRequest):
@@ -39,11 +40,10 @@ def show_recipe(request: HttpRequest):
         product_id = int(request.GET.get("product_id"))
     except TypeError:
         return HttpResponseNotFound("Параметры переданы некорректно")
-    exc = (
-        item.recipe_id
-        for item in RecipeItem.objects
-        .filter(product_id=product_id)
-        .filter(product_weight__gte=10))
+    exc = (item.recipe_id
+           for item in RecipeItem.objects
+           .filter(product_id=product_id)
+           .filter(product_weight__gte=10))
 
     recipes = Recipe.objects.exclude(id__in=exc)
     context = {"recipes": recipes}
